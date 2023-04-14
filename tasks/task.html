@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Task</title>
+</head>
+
+<body>
+	<p>
+		Задача. Дано історію цін на цінні папери за деякий період (згенерувати від 1 до 10000)
+	</p>
+	<script>
+
+		//Задача. Дано історію цін на цінні папери за деякий період (згенерувати від 1 до 10000)
+		//======================================================================================
+
+		minValue = 1
+		maxValue = 10000
+		const userPeriod = parseInt(prompt('Введіть період за який необхідно отримати ціну по місяцях'))
+
+		function getRandomNum(minValue, maxValue) {
+			return minValue + Math.floor(Math.random() * (maxValue - minValue + 1))
+		}
+
+		const pricesOfPeriod = new Array(userPeriod).fill(0).map(el => el = getRandomNum(minValue, maxValue))
+		document.write(`Історія цін на цінні папери: ${pricesOfPeriod} за ${userPeriod} місяці(в)<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		//1.Сформувати новий масив, у якому є тільки ті, що більші за 1000 грн.
+
+		const arrMoreThan100 = pricesOfPeriod.filter(el => el > 1000)
+		document.write(`1. Ціни, що більші за 1000 грн - ${arrMoreThan100}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 2.Сформувати новий масив, у якому є номери тільки тих, що більші за 1000 грн.
+
+		const arrIndexMoreThan100 = pricesOfPeriod.reduce((prevSumm, el, index) => {
+			if (el > 1000) prevSumm.push(index)
+			return prevSumm
+		}, [])
+
+		document.write(`2. Mасив, у якому є номери тільки тих, що більші за 1000 грн - ${arrIndexMoreThan100}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 3.Сформувати список з тих цін, які більші за попереднє значення
+
+		const pricesListGreaterThenPrevValue = pricesOfPeriod.filter((element, index, arrRef) => element > arrRef[index - 1])
+		document.write(`3. Cписок з тих цін, які більші за попереднє значення - ${pricesListGreaterThenPrevValue}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 4.Сформувати новий масив, що міститиме значення цін у відсотках стосовно максимального
+
+		function getMaxPrice() {
+			let maxNum = Math.max(...pricesOfPeriod)
+			return maxNum
+		}
+
+		const maxValueOfPricesList = getMaxPrice()
+
+		const persentOfMaxInPrices = pricesOfPeriod.map((elem) => (elem / maxValueOfPricesList) * 100)
+		document.write(`4. Новий масив, що містить значення цін у відсотках стосовно максимального - ${persentOfMaxInPrices}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 5.Підрахувати кількість змін цін
+
+		const numberOfPriceChanges = pricesOfPeriod.reduce((prevSum, element, index, baseArrRef) =>
+			index > 0 && baseArrRef[index] !== baseArrRef[index - 1] ? prevSum + 1 : prevSum, 0)
+		document.write(`5. Кількість змін цін - ${numberOfPriceChanges} <br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 6.Визначити, чи є ціна, що менше 1000
+
+		const isPriceLessThan1000 = pricesOfPeriod.some(price => price < 1000)
+
+		document.write(`6. Чи є ціна, що менше 1000 - ${isPriceLessThan1000}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 7.Визначати, чи усі ціни більше за 1000
+
+		const isAllPricesMoreThan1000 = pricesOfPeriod.every(prices => prices > 1000)
+		document.write(`7. Чи усі ціни більші за 1000 - ${isAllPricesMoreThan1000}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 8.Підрахувати кількість цін, що більше за 1000
+
+		const pricesNumGreaterThan1000 = pricesOfPeriod.reduce((prevPrices, element) => {
+			if (element > 1000) prevPrices++
+			return prevPrices
+		}, 0)
+
+		document.write(`8. Kількість цін, що більше за 1000 - ${pricesNumGreaterThan1000}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 9.Підрахувати суму цін, що більше за 1000
+
+		const summPricesMoreThan1000 = pricesOfPeriod.reduce((prevPrices, element, index, arrRef) => {
+			return element > 1000 ? prevPrices += element : prevPrices
+		})
+
+		document.write(`9. Сума цін, що більші за 1000 - ${summPricesMoreThan1000}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 10.Знайти першу ціну, що більше за 1000
+
+		let firstPriceGreater1000 = pricesOfPeriod.find((price, index, arrRef) => price > 1000)
+
+		document.write(`10. Перша ціна, що більше за 1000 - ${firstPriceGreater1000}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 11.Знайти індекс першої ціни, що більше за 1000
+		const firstPriceIndexGreater1000 = pricesOfPeriod.findIndex((element, index, arrRef) => {
+			if (element > 1000) return arrRef[index]
+		})
+
+		document.write(`11. Iндекс першої ціни, що більше за 1000 - ${firstPriceIndexGreater1000}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 12.Знайти останню ціну, що більше за 1000
+
+		let lastPriceGreater1000 = pricesOfPeriod.findLast((price, index, arrRef) => price > 1000)
+
+		document.write(`12. Остання ціна, що більше за 1000 - ${lastPriceGreater1000}<br>`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+		// 13.Знайти індекс останньої ціни, що більше за 1000
+
+		const lastPriceIndexGreater1000 = pricesOfPeriod.findLastIndex((element, index, arrRef) => {
+			if (element > 1000) return arrRef[index]
+		})
+
+		document.write(`13. Iндекс останньої ціни, що більше за 1000 - ${lastPriceIndexGreater1000}`)
+
+		// ---------------------------------------------------------------------------------------------------
+
+	</script>
+</body>
+
+</html>
